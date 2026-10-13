@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MiLeCrew | Underground Rap</title>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+ margin:0;background:#090611;color:white;
+ font-family:Arial,sans-serif
+}
+header{
+ padding:22px;display:flex;justify-content:space-between;
+ align-items:center;background:#130b20
+}
+.logo{font-size:26px;font-weight:900;color:#b15cff}
+nav a{color:white;text-decoration:none;margin-left:12px}
+.hero{
+ min-height:430px;display:flex;align-items:center;
+ justify-content:center;text-align:center;padding:25px;
+ background:radial-gradient(circle,#60238c,#180b27 65%,#090611)
+}
+.hero h1{
+ font-size:clamp(48px,12vw,95px);
+ text-shadow:0 0 35px #a855f7;margin:12px 0
+}
+.hero p{color:#d5b4ed;letter-spacing:3px}
+.btn{
+ background:#9333ea;color:white;border:0;
+ border-radius:9px;padding:14px 25px;
+ font-weight:bold;cursor:pointer;text-decoration:none;
+ display:inline-block
+}
+section{max-width:1050px;margin:auto;padding:45px 20px}
+h2{border-left:4px solid #a855f7;padding-left:14px}
+.feature{
+ background:linear-gradient(135deg,#421565,#160b24);
+ border:1px solid #7033a0;border-radius:18px;
+ padding:35px;text-align:center
+}
+.cover{
+ width:140px;height:140px;margin:0 auto 20px;
+ display:grid;place-items:center;font-size:65px;
+ background:#57218a;border-radius:15px;
+ box-shadow:0 0 35px #9333ea77
+}
+.tracks{
+ display:grid;grid-template-columns:
+ repeat(auto-fit,minmax(220px,1fr));gap:16px
+}
+.track{
+ background:#1b102b;padding:22px;border-radius:14px;
+ border:1px solid #493060
+}
+.track button{
+ width:100%;padding:12px;border:0;border-radius:8px;
+ background:#8135c3;color:white;cursor:pointer
+}
+.track p{color:#bda7ce}
+.player{
+ position:sticky;bottom:0;background:#1a1028;
+ border-top:1px solid #9333ea;text-align:center;
+ padding:14px;z-index:10
+}
+audio{width:100%;max-width:600px;margin-top:9px}
+.social a{
+ display:inline-block;color:white;text-decoration:none;
+ border:1px solid #9333ea;border-radius:8px;
+ padding:12px;margin:5px
+}
+footer{text-align:center;color:#ad99bd;padding:25px}
+@media(max-width:600px){
+ header{flex-direction:column;gap:15px}
+ nav a{margin:0 6px;font-size:14px}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">MiLeCrew</div>
+ <nav>
+  <a href="#home">Ana Sayfa</a>
+  <a href="#music">Müzikler</a>
+  <a href="#about">Hakkımda</a>
+ </nav>
+</header>
+
+<div class="hero" id="home">
+ <div>
+  <p>UNDERGROUND RAP</p>
+  <h1>MiLeCrew</h1>
+  <p>SESLERİN ARDINDAKİ KARANLIK</p>
+  <a class="btn" href="#music">ŞARKILARI DİNLE</a>
+ </div>
+</div>
+
+<section>
+ <h2>Yeni Çıkış: MORG</h2>
+ <div class="feature">
+  <div class="cover">☠</div>
+  <h3>MORG</h3>
+  <p>MiLeCrew | Melankolik Rap</p>
+  <button class="btn" onclick="playSong(0)">
+   ▶ Şimdi Dinle
+  </button>
+ </div>
+</section>
+
+<section id="music">
+ <h2>Şarkılarım</h2>
+ <div class="tracks" id="tracks"></div>
+</section>
+
+<section id="about">
+ <h2>MiLeCrew Kimdir?</h2>
+ <p>
+  MiLeCrew, yaşanmışlıklarını ve duygularını
+  underground rap müziğe dönüştüren
+  bağımsız bir müzik projesidir.
+ </p>
+ <div class="social">
+  <a href="https://instagram.com/" target="_blank">Instagram</a>
+  <a href="https://youtube.com/" target="_blank">YouTube</a>
+  <a href="https://open.spotify.com/" target="_blank">Spotify</a>
+ </div>
+</section>
+
+<div class="player">
+ <strong id="playing">Bir şarkı seç</strong>
+ <audio id="audio" controls></audio>
+</div>
+
+<footer>© 2026 MiLeCrew | Underground Edition</footer>
+
+<script>
+const songs=[
+ {name:"MORG",file:"music/morg.mp3"},
+ {name:"Şarkı 2",file:"music/sarki2.mp3"},
+ {name:"Şarkı 3",file:"music/sarki3.mp3"},
+ {name:"Şarkı 4",file:"music/sarki4.mp3"},
+ {name:"Şarkı 5",file:"music/sarki5.mp3"},
+ {name:"Şarkı 6",file:"music/sarki6.mp3"}
+];
+const tracks=document.getElementById("tracks");
+const audio=document.getElementById("audio");
+const playing=document.getElementById("playing");
+
+songs.forEach((song,i)=>{
+ const card=document.createElement("div");
+ card.className="track";
+ const title=document.createElement("h3");
+ title.textContent="♫ "+song.name;
+ const subtitle=document.createElement("p");
+ subtitle.textContent="MiLeCrew | Rap";
+ const button=document.createElement("button");
+ button.textContent="▶ Dinle";
+ button.onclick=()=>playSong(i);
+ card.append(title,subtitle,button);
+ tracks.appendChild(card);
+});
+
+function playSong(i){
+ const song=songs[i];
+ playing.textContent="Şimdi çalıyor: "+song.name;
+ audio.src=song.file;
+ audio.play().catch(()=>{
+  playing.textContent=song.name+
+   " — MP3 dosyasını music klasörüne ekle";
+ });
+}
+</script>
+</body>
+</html>
